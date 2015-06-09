@@ -1,0 +1,14 @@
+body {
+	font-family: sans-serif;
+	background-color: #F0F0F0;
+}
+div {
+	background-color: #FFF;
+	padding: 2em;
+	margin: 2em auto;
+	width: 40%;
+}
+input {
+	width: 50%;
+	margin: 1em 0;
+}
