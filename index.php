@@ -11,7 +11,7 @@
 </head>
 <body>
 
-	<div>
+	<div class="container">
 		
 		<h1>Create a Short URL</h1>
 		
@@ -31,6 +31,8 @@
 	
 	<button type="button" id="shorten">Go</button>
 	
+	<div class="urlList"></div>
+	
 	<button type="button" id="retrieve">retrieve</button>
 	</div>
 
@@ -46,24 +48,35 @@ $(document).ready(function(){
 		$.ajax({
 			url: 'api.php?method=' + url,
 			type: 'POST',
-			//xhrFields: {withCredentials: true},
 			data: {
 					'username': 'foo',
-					'password': 'bard',
+					'password': 'bar',
 					},
 			success: function( data ) {
 				console.log('success');
-				//var items = [];
+				var items = [];
+				$.each( data, function( key, val ) {
+					console.log(key + ' | ' + val);
+				});
+				
+				//this is what you get
+				/*
+				"success" wheaton:56:4
+"code | 1" wheaton:59:5
+"status | 200" wheaton:59:5
+"data | ["16350","http:\/\/www.projo.com","4hhw"]"
+				*/
+
 				//$.each( data, function( key, val ) {
 				//	items.push( "<li id='" + key + "'>" + val + '</li>' );
 				//});
 				//$( '<ul/>', {
 				//	'class': 'my-new-list',
 				//	html: items.join( '' )
-				//}).appendTo( 'body' );
+				//}).appendTo( '.urlList' );
 
 			},
-			error: function (xhr, ajaxOptions, thrownError) { //Add these parameters to display the required response
+			error: function (xhr, ajaxOptions, thrownError) {
 				console.log(xhr.status);
 				console.log(xhr.responseText);
 			},
@@ -89,7 +102,7 @@ $(document).ready(function(){
 				}).appendTo( 'body' );
 				//});
 			},
-			error: function (xhr, ajaxOptions, thrownError) { //Add these parameters to display the required response
+			error: function (xhr, ajaxOptions, thrownError) {
 				console.log(xhr.status);
 				console.log(xhr.responseText);
 			},

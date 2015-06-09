@@ -47,7 +47,6 @@ $response['data'] = NULL;
  
 $method = $_SERVER['REQUEST_METHOD'];
 
-echo $method;
 
 switch ($method) {
   case 'GET':
@@ -65,7 +64,7 @@ switch ($method) {
   
     break;
   
-  case 'PUT':
+  case 'POST':
      // Authorize
     if( empty($_POST['username']) || empty($_POST['password']) ){
       $response['code'] = 3;
@@ -89,31 +88,35 @@ switch ($method) {
     // Create short URL
     else {
       
-      //$urlinput = mysql_real_escape_string($_POST['url']); 
-      //
-      //$id = rand(10000,99999);
-      //
-      //$shorturl = base_convert($id,20,36);
-      //
-      //$query = "INSERT INTO urls VALUES('$id','$urlinput','$shorturl')";
-      //
-      //mysql_query($query,$connection);
-      //
-      //$query = "SELECT * FROM urls WHERE id = '$id'";
-      //
-      //$result = mysql_query($query);
-      //
-      //$results = array();
-      //
-      //while ( $row = mysql_fetch_array( $result ) ) {
-      //  array_push( $results, $row[0] );
-      //}
-      //
-      //mysql_close($con);
+      $urlinput = mysql_real_escape_string($_GET['method']); 
+      
+      $id = rand(10000,99999);
+      
+      $shorturl = base_convert($id,20,36);
+      
+      $query = "INSERT INTO urls VALUES('$id',now(),'$urlinput','$shorturl')";
+      
+      $result = mysql_query($query,$connection);
+      
+      $query = "SELECT * FROM urls WHERE id = $id";
+      
+      //echo $query;
+      
+      $result = mysql_query($query);
+      
+      $results = array();
+      
+      while ( $row = mysql_fetch_array( $result ) ) {
+        array_push( $results, $row[0] );
+        array_push( $results, $row[2] );
+        array_push( $results, $row[3] );
+      }
+      
+      mysql_close($connection);
       
       $response['code'] = 1;
       $response['status'] = $api_response_code[ $response['code'] ]['HTTP Response'];
-      $response['data'] = $_POST['url']; //json_encode($results);
+      $response['data'] = json_encode($results);
     
       // Return response
       deliver_response($response);

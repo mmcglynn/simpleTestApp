@@ -2,7 +2,7 @@ body {
 	font-family: sans-serif;
 	background-color: #F0F0F0;
 }
-div {
+div.container {
 	background-color: #FFF;
 	padding: 2em;
 	margin: 2em auto;
